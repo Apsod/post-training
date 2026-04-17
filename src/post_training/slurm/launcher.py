@@ -55,6 +55,7 @@ def render_trl_slurm_script(
 
     rendered = template.render(
         # SLURM parameters
+        account=config.slurm.account,
         job_name=config.slurm.job_name,
         partition=config.slurm.partition,
         num_nodes=config.slurm.num_nodes,
@@ -105,6 +106,7 @@ def render_trl_container_slurm_script(
 
     rendered = template.render(
         # SLURM parameters
+        account=config.slurm.account,
         job_name=config.slurm.job_name,
         partition=config.slurm.partition,
         num_nodes=config.slurm.num_nodes,

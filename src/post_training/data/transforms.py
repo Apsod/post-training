@@ -61,6 +61,12 @@ def get_transform(name: str) -> Callable[[dict[str, Any]], dict[str, Any]]:
 # Built-in transforms
 # ---------------------------------------------------------------------------
 
+@register_transform("unconditional_dpo")
+def unconditional_dpo(example: dict[str, Any]) -> dict[str, Any]:
+    return {'chosen': example['chosen'],
+            'rejected': example['rejected'],
+            'prompt': 'dummy '
+            }
 
 @register_transform("rename_to_messages")
 def rename_to_messages(example: dict[str, Any]) -> dict[str, Any]:

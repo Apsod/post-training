@@ -74,14 +74,20 @@ def _parse_args() -> tuple[str, list[str]]:
         action="store_true",
         help="Exit after initializing the trainer (useful for verifying tokenization).",
     )
+
+    parser.add_argument(
+        "--cpu",
+        action="store_true",
+    )
+        
     known, unknown = parser.parse_known_args()
-    return known.config, known.tokenize_only, unknown
+    return known.config, known.tokenize_only, known.cpu, unknown
 
 
 def main() -> None:
     setup_logging()
 
-    config_path, tokenize_only, cli_overrides = _parse_args()
+    config_path, tokenize_only, cpu_only, cli_overrides = _parse_args()
     logger.info("Loading config from %s", config_path)
     config = PostTrainingConfig.load(config_path, cli_overrides)
 
@@ -109,6 +115,9 @@ def main() -> None:
     # Freeze a copy of the config into the run directory.
     frozen_path = run_dir / "config.yaml"
     config.save(frozen_path)
+
+    if cpu_only:
+        config.model.dtype = "float32"
 
     # ── Build trainer & launch ──────────────────────────────────────
     trainer = build_trainer(config, run_dir)

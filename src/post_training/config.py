@@ -178,7 +178,7 @@ class ContainerConfig:
 @dataclass
 class SlurmConfig:
     """SLURM job scheduler parameters."""
-
+    account: str = 'OELLM_prod2026'
     partition: str = "gpu"
     num_nodes: int = 1
     gpus_per_node: int = 4
